@@ -1,0 +1,133 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require jquery.ui.all
+ *= require_tree .
+ */
+
+@import "bootstrap";
+@import "font-awesome";
+
+div#main {
+  display:block;
+  margin: 0 auto;
+  border: 1px solid red;
+  width: 90%;
+}
+//
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.board {
+  background: rgb(35, 74, 117);
+  display: block;
+  float: left;
+  margin: 0 10px 10px 0;
+  padding: 10px 0 0 10px;
+  width: 280px;
+  height: 110px;
+
+  border: 1px solid blue;
+  border-radius: 5px;
+}
+
+.board a{
+  display: block;
+  color: white;
+
+  font: bold 20px arial;
+  text-decoration: none;
+}
+
+div.board:hover {
+  background: rgb(31, 65, 102);
+  color: rgb(244, 244,244);
+}
+
+
+.board.new-board {
+  background: rgb(211, 211, 211);
+  font: 25px;
+  color: rgb(129, 129,129);
+  padding: 0;
+  border-radius: 5px;
+  text-align: center;
+
+}
+
+.board.new-board:hover{
+  background: rgb(193, 193, 193);
+  color: rgb(132, 129,129);
+}
+
+.button {
+  background: linear-gradient( rgb(31,110, 7), rgb(43, 156,0));
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  color: white;
+  font: bold 15px arial;
+  text-align: center;
+  padding-top: 10px ;
+}
+.button:hover {
+  background: linear-gradient( rgb(26,89, 8), rgb(37, 132,5));
+}
+
+.wrapper {
+  position:relative;
+  display: block;
+  float: left;
+  background: white;
+  padding: 5px;
+
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 5px lightgray;
+}
+
+.wrapper > * > *{
+  display: block;
+  float: left;
+}
+
+.create-board-header {
+  border-bottom: 1px solid gray;
+  padding-bottom: 10px;
+}
+.form-new-board > h4, .form-new-board >label{
+  color: rgb(43,43,43);
+}
+.form-new-board > input#title {
+//  display: inline;
+  background: rgb(230, 230, 230);
+  margin-left: 5px;
+  width: 87%;
+  border-radius: 5px;
+}
+
+form > input#title:focus {
+  background: #fff;
+
+}
+.not-active {
+  display: hidden;
+}
+
+button.delete {
+  margin-right: 10px;
+  float: right;
+  transform: translateY(50%);
+}

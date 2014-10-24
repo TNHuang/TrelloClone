@@ -1,0 +1,12 @@
+<h5>My Boards</h5>
+<% if (boards.length === 0) { %>
+   <div class="board"><a href="#">Welcome Board</a></div>
+<% }else { %>
+  <% boards.each( function(board){ %>
+    <div class="board" ><a href="#/boards/<%= board.id %>"><%= board.escape('title') %></a><button data-board-id="<%= board.escape('id') %>" class="button delete">Delete</button></div>
+  <% }) %>
+<% } %>
+
+
+<div class="board new-board">Create new board...</div>
+
