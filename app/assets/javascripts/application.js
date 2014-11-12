@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.sortable
-//= require underscore
 //= require jquery.serializejson.min
+//= require underscore
 //= require backbone
 //= require bootstrap
 //= require trello_clone
