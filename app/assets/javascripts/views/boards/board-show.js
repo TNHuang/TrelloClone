@@ -5,8 +5,8 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
     this.board = options.board;
 
     this.subViews = [];
-    this.listenTo(this.board, "sync", this.render);
-    this.listenTo(this.board, 'add', this.addListRender);
+    this.listenTo(this.board, "sync change remove", this.render);
+    this.listenTo(this.board, "add", this.addListRender);
   },
 
 
