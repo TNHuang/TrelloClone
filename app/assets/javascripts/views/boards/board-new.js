@@ -30,14 +30,12 @@ TrelloClone.Views.BoardNew = Backbone.View.extend({
     board.save({}, {
       success: function () {
         this.boards.add(board);
-        this.$(".new-board").toggleClass('not-active');
-        this.$('.create-board').toggleClass('not-active');
-      }.bind(this),
-      error: function () {
-        this.$(".new-board").toggleClass('not-active');
-        this.$('.create-board').toggleClass('not-active');
-      }.bind(this),
-    })
+        this.$('#title').val("");
+      }.bind(this)
+    });
+
+    this.$(".new-board").toggleClass('not-active');
+    this.$('.create-board').toggleClass('not-active');
   },
 
 

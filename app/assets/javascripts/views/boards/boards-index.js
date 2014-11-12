@@ -34,12 +34,6 @@ TrelloClone.Views.BoardsIndex = Backbone.View.extend({
     this.subViews.push(view);
     this.$('.boards-container').append(view.render().$el);
   },
-  //
-  // addNewBoard: function (event) {
-  //   var model = new TrelloClone.Models.Board();
-  //   var newView = new TrelloClone.Views.BoardNew({collection: this.collection, model: model});
-  //   $(event.target).html(newView.render().$el);
-  // },
 
   remove: function () {
     this.subViews.forEach(function (subView) {

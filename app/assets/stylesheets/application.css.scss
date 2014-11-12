@@ -144,10 +144,35 @@ button.delete {
   transform: translateY(50%);
 }
 
+
 .list-container {
   border: 1px solid blue;
   display: block;
   float: left;
   width: 262px;
   margin: 0 20px;
+  background: #0c6;
+}
+
+.new-list {
+  border: 1px solid red;
+
+}
+.card-container {
+  border: 1px solid #0c6;
+  background: #ccc;
+}
+
+.placeholder {
+  box-shadow: inset 1px 1px  5px 5px gray;
+  display: block;
+  float: left;
+  width: 200px;
+  height: 400px;;
+}
+
+.placeholder-card {
+  background: orange;
+  width: 200px;
+  height: 50px;
 }
