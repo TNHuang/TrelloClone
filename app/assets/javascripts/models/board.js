@@ -1,5 +1,5 @@
 TrelloClone.Models.Board = Backbone.Model.extend({
-  url: "/api/boards" ,
+  url: "/api/boards"  ,
 
   parse: function (response) {
     if(response.lists) {

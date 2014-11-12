@@ -16,6 +16,12 @@
 @import "bootstrap";
 @import "font-awesome";
 
+html, body, div{
+  padding: 0;
+  margin: 0;
+  font: inherit;
+}
+
 div#main {
   display:block;
   margin: 0 auto;
@@ -103,12 +109,18 @@ div.board:hover {
   float: left;
 }
 
+.create-board {
+  background: gray;
+
+}
 .create-board-header {
   border-bottom: 1px solid gray;
   padding-bottom: 10px;
 }
-.form-new-board > h4, .form-new-board >label{
+
+.form-new-board > h3, .form-new-board >label, .form-new-board > p {
   color: rgb(43,43,43);
+
 }
 .form-new-board > input#title {
 //  display: inline;
@@ -120,14 +132,14 @@ div.board:hover {
 
 form > input#title:focus {
   background: #fff;
-
+  color: black;
 }
 .not-active {
   display: none;
 }
 
 button.delete {
-  margin-right: 10px;
+  // margin-right: 10px;
   float: right;
   transform: translateY(50%);
 }

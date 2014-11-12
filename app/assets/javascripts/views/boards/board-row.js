@@ -19,7 +19,16 @@ TrelloClone.Views.BoardRow = Backbone.View.extend({
 
   deleteBoard: function (event) {
     event.preventDefault();
-    this.board.destroy();
-    this.remove();
+    console.log(this.board)
+    $.ajax({
+      url: "api/boards/" + this.board.id,
+      type: "DELETE",
+      data: { id: this.board.id },
+      dataType: 'json',
+      success: function () {
+        this.remove();
+      }.bind(this)
+    });
+
   },
 })
