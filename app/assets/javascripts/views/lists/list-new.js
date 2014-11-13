@@ -1,6 +1,6 @@
 TrelloClone.Views.ListNew = Backbone.View.extend({
   template: JST['lists/new'],
-  className: "list-container",
+  className: "list-container creation",
   initialize: function (options) {
 
     this.lists = options.lists;

@@ -21,6 +21,7 @@ html, body, div, ul, li{
   margin: 0;
   font: inherit;
   font-family: helvetica;
+  list-style: none;
 }
 
 div#main {
@@ -183,7 +184,7 @@ button.delete {
 }
 
 .new-list {
-  border: 1px solid red;
+  // border: 1px solid red;
 
 }
 .card-container {
