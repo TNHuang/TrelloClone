@@ -25,12 +25,13 @@ html, body, div, ul, li{
 }
 
 div#main {
-  width: 3000px;
+  display: inline;
   overflow-x: auto;
-  // margin: 0 auto;
+  margin: 0 auto;
+  height: 900px;
   // border: 1px solid red;
   // width: 90%;
-  background: #2767B6
+  // background: #2767B6
 }
 //
 

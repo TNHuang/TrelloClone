@@ -1,9 +1,8 @@
 <%= card.escape('title') %>
-<p data-card-id="<%= card.escape('id') %>" data-ord="<%= card.escape('ord') %>">
+<p data-card-id="<%= card.escape('id') %>" data-ord="<%= card.escape('ord') %>" data-list-id="<%= card.escape('list_id') %>">
   <%= card.escape('description') %>
 </p>
-data-id: <%= card.escape('id') %>
-card-ord: <%= card.escape('ord') %>
+
 <div class='delete-card'>
   &times
 </div>

@@ -18,5 +18,7 @@ TrelloClone.Collections.Cards = Backbone.Collection.extend({
     }
     return card;
   },
-  
+
 })
+
+TrelloClone.Collections.cards = new TrelloClone.Collections.Cards();

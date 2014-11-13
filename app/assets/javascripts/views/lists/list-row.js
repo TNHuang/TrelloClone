@@ -24,58 +24,126 @@ TrelloClone.Views.ListRow = Backbone.View.extend({
     this.addCreateCardRender();
     this.saveOrds();
 
+    var that = this;
     this.$('.cards-container').sortable({
       connectWith:".cards-container",
       items: "li",
-      placeholder: "placeholder-card",
+      remove: function(event, ui) {},
       recieve: function (event, ui) {event.stopPropagation()},
       update: function(event, ui) {event.stopPropagation()}
     });
 
+    this.$('.cards-container').on("sortremove", function (event, ui) {
+      event.stopPropagation();
+      var card_id = ui.item.find('p').data("card-id");
+      var card = that.cards.get(card_id);
+      console.log(that.cards.get(card_id))
+      that.cards.remove(card);
+      that.saveOrds();
+    });
 
     this.$('.cards-container').on("sortreceive", function(event, ui){
       event.stopPropagation();
       var reciever_list_id = $(event.target).data("list-id");
+      var current_event = $(event.target);
       var card_id = ui.item.find('p').data("card-id");
-      console.log('getting recieve trigger too')
+      // var newCard = new TrelloClone.Collections.Cards().getOrFetch(card_id);
+      // newCard.set({card: {list_id: reciever_list_id}});
+      // newCard.save({}, {
+      //   success: function () {
+      //     that.cards.add(newCard);
+      //     that.saveOrds();
+      //   }
+      // });
+
       $.ajax({
         url: "api/cards/" + card_id,
         type: "PUT",
-        data: { id: card_id, card: { list_id: reciever_list_id } }
+        data: { id: card_id, card: { list_id: reciever_list_id } },
+        success: function () {
+
+          that.cards.add(newCard);
+
+          that.saveOrds();
+        }.bind(this)
       });
-      this.saveOrds();
+
     }.bind(this))
-
-    this.$('.cards-container').on('sortupdate', function(event, ui){
-      event.stopPropagation();
-      var start_ord = ui.item.find('> p').data('ord');
-      // console.log("event",event.target)
-      // console.log("ui item",ui.item.index());
-      // console.log('placeholder', ui.placeholder.index())
-      console.log(ui.item.prev())
-      var end_ord = ui.item.index();
-      var start_card_id = $(ui.item.find(' p')).data('card-id');
-      var end_card_id = this.cards.where({ ord: end_ord})[0].get('id');
-      console.log("inside", start_ord, ":", end_ord, ":", start_card_id,":", end_card_id)
-
-      if (start_ord !== undefined && start_ord !== end_ord) {
-        $.ajax({
-          url: "api/cards/" + start_card_id,
-          type: "PUT",
-          data: { id: start_card_id, card: { ord: end_ord } }
-        });
-        $.ajax({
-          url: "api/cards/" + end_card_id,
-          type: "PUT",
-          data: { id: end_card_id, card: { ord: start_ord } }
-        });
-        this.saveOrds();
-      }
-    }.bind(this));
-
 
     this.$('.cards-container').disableSelection();
 
+    this.$('.cards-container').on('sortupdate', function(event, ui){
+      event.stopPropagation();
+      console.log('getting inner trigger')
+
+      var sender_list_id = ui.item.find('> p').data("list-id");
+      var reciever_list_id = $(event.target).data("list-id");
+
+
+      if (sender_list_id !== reciever_list_id) {
+        var start_ord = 1000;
+      } else {
+        var start_ord = ui.item.find('> p').data('ord');
+      }
+
+      var end_ord = ui.item.index();
+      var direction = end_ord - start_ord;
+      var start_card_id = $(ui.item.find('> p')).data('card-id');
+
+      function bigger(e){
+        if (e.get('ord') >= end_ord && e.get('ord') <= start_ord ) {
+          return e;
+        }
+      }
+      function smaller(e){
+        if (e.get('ord') <= end_ord && e.get('ord') >= start_ord) {
+           return e;
+        }
+      }
+
+      if (direction < 0){
+        var newcards = this.cards.filter(bigger);
+
+        newcards.forEach(function(e){
+          if (e.get('id') === start_card_id){
+            ord = end_ord
+          } else {
+            ord = e.get('ord') + 1
+          }
+
+          $.ajax({
+                url: "api/cards/" + e.get('id'),
+                type: "PATCH",
+                data: { id: e.id, card: { ord: ord } },
+                success: function (response) {
+                  e.set({ord: response.ord})
+                },
+          });
+        });
+      } else if (direction > 0) {
+        var newcards = this.cards.filter(smaller);
+
+        newcards.forEach(function(e){
+          if (e.get('id') === start_card_id){
+            ord = end_ord
+          } else {
+            ord = e.get('ord') -1
+          }
+
+          $.ajax({
+                url: "api/cards/" + e.get('id'),
+                type: "PATCH",
+                data: { id: e.id, card: { ord: ord } },
+                success: function (response) {
+                  e.set({ord: response.ord})
+                },
+          });
+
+        });
+      }
+
+
+    }.bind(this));
 
     return this;
   },
@@ -84,8 +152,7 @@ TrelloClone.Views.ListRow = Backbone.View.extend({
     var view = new TrelloClone.Views.CardRow({card: card});
     this.subViews.push(view);
 
-
-    this.$('.cards-container').prepend(view.render().$el);
+    this.$('.cards-container').append(view.render().$el);
   },
 
   addCreateCardRender: function () {
@@ -118,6 +185,7 @@ TrelloClone.Views.ListRow = Backbone.View.extend({
       }
       element.save( {ord: index} );
     });
+
     console.log('getting inside trigger')
 
   },

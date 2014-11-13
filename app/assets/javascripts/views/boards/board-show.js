@@ -1,11 +1,12 @@
 TrelloClone.Views.BoardShow = Backbone.View.extend({
   template: JST["boards/show"],
   initialize: function (options) {
-    // $('body').css('background-color', 'rgb(43, 91, 144)');
+    $('body').css('background-color', 'rgb(43, 91, 144)');
+
     this.board = options.board;
     this.lists = this.board.lists();
     this.subViews = [];
-    this.listenTo(this.board, "sync change", this.render);
+    this.listenTo(this.board, "sync", this.render);
     this.listenTo(this.lists, "add", this.addListRender);
     this.listenTo(this.lists, "add remove", this.saveOrds);
   },
@@ -19,46 +20,81 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
     var content = this.template({board: this.board});
     this.$el.html(content);
 
-
     this.addCreateListRender();
     this.lists.forEach( this.addListRender.bind(this) );
+    this.saveOrds();
 
     this.$('.lists-container').sortable({
-       placeholder: "placeholder",
+      //  placeholder: "placeholder",
        items: " > li",
        update: function(event, ui){},
     });
+
 
 
     this.$('.lists-container').on('sortupdate', function(event, ui){
 
       var start_ord = ui.item.find('> ul').data('ord');
       var end_ord = ui.item.index();
-      var start_list_id = $(ui.item.find(' ul')).data('list-id');
-      var end_list_id = this.lists.where({ ord: end_ord})[0].get('id');
-      console.log("outer", start_ord, ":", end_ord, ":", start_list_id,":", end_list_id)
+      var direction = end_ord - start_ord;
+      var start_list_id = $(ui.item.find('> ul')).data('list-id');
 
-      if (start_ord !== undefined && start_ord !== end_ord) {
-        $.ajax({
-          url: "api/lists/" + start_list_id,
-          type: "PUT",
-          data: { id: start_list_id, list: { ord: end_ord } }
-        });
-        $.ajax({
-          url: "api/lists/" + end_list_id,
-          type: "PUT",
-          data: { id: end_list_id, list: { ord: start_ord } }
-        });
-        this.saveOrds();
+      function bigger(e){
+        if (e.get('ord') >= end_ord && e.get('ord') <= start_ord ) {
+          return e;
+        }
+      }
+      function smaller(e){
+        if (e.get('ord') <= end_ord && e.get('ord') >= start_ord) {
+           return e;
+        }
       }
 
 
+      if (direction < 0){
+        var newlists = this.lists.filter(bigger);
+
+        newlists.forEach(function(e){
+          if (e.get('id') === start_list_id){
+            ord = end_ord
+          } else {
+            ord = e.get('ord') + 1
+          }
+
+          $.ajax({
+                url: "api/lists/" + e.get('id'),
+                type: "PATCH",
+                data: { id: e.id, list: { ord: ord } },
+                success: function (response) {
+                  e.set({ord: response.ord})
+                },
+          });
+        });
+      } else if (direction > 0) {
+        var newlists = this.lists.filter(smaller);
+
+        newlists.forEach(function(e){
+          if (e.get('id') === start_list_id){
+            ord = end_ord
+          } else {
+            ord = e.get('ord') - 1
+          }
+
+          $.ajax({
+                url: "api/lists/" + e.get('id'),
+                type: "PATCH",
+                data: { id: e.id, list: { ord: ord } },
+                success: function (response) {
+                  e.set({ord: response.ord})
+                },
+          });
+
+        });
+      }
     }.bind(this));
 
 
     this.$('.lists-container').disableSelection();
-
-
     return this;
   },
 
@@ -88,7 +124,7 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
     Backbone.View.prototype.remove.call(this);
   },
 
-  saveOrds: function (event) {
+  saveOrds: function () {
 
     this.lists.each( function(element, index) {
       if (element.get('ord') === index) {
@@ -96,7 +132,6 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
       }
       element.save( {ord: index} );
     });
-    console.log('getting trigger')
 
   },
 })
