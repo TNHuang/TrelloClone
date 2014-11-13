@@ -1,12 +1,14 @@
 TrelloClone.Views.ListRow = Backbone.View.extend({
   template: JST['lists/row'],
-  className: "list-container",
+  className: "list-container ",
   tagName: "li",
   initialize: function (options) {
+    this.ord = options.ord;
     this.list = options.list;
     this.subViews = [];
-    this.listenTo(this.list, 'sync change destroy', this.render);
-    this.listenTo(this.list.cards(), 'remvoe', this.render);
+
+    this.listenTo(this.list, 'sync', this.render);
+
     this.listenTo(this.list.cards(), 'add', this.addCardRender);
   },
 
@@ -15,19 +17,54 @@ TrelloClone.Views.ListRow = Backbone.View.extend({
   },
 
   render: function () {
-    var content = this.template({ list: this.list});
+    var content = this.template({ list: this.list, ord: this.ord });
     this.$el.html(content);
     this.list.cards().forEach( this.addCardRender.bind(this))
     this.$('.cards-container').sortable({
       connectWith:".cards-container",
       placeholder: "ui-state-highlight",
-      drop: function (event) {
-        alert("dropped!");
-      }
+      // remove: function (event, ui) {}
     });
+
+
+    this.$('.cards-container').on('sortremove', function(event, ui){
+      var sender_list_id = ui.sender.data("list-id");
+      var reciever_list_id = $(event.target).data("list-id");
+      var card_id = ui.item.find('p').data("card-id");
+
+      $.ajax({
+        url: "api/cards/" + card_id,
+        type: "PUT",
+        data: { id: card_id, card: { list_id: reciever_list_id } }
+      });
+    })
+    // this.$('.lists-container').on('sortstop', function(event, ui){
+    //
+    //   var start_ord = ui.item.find('> ul').data('ord');
+    //   var end_ord = ui.item.index();
+    //   var start_list_id = $(ui.item.find(' ul')).data('list-id');
+    //   var end_list_id = this.lists.where({ ord: end_ord})[0].get('id');
+    //
+    //   $.ajax({
+    //     url: "api/lists/" + start_list_id,
+    //     type: "PUT",
+    //     data: { id: start_list_id, list: { ord: end_ord } }
+    //   });
+    //   $.ajax({
+    //     url: "api/lists/" + end_list_id,
+    //     type: "PUT",
+    //     data: { id: end_list_id, list: { ord: start_ord } }
+    //   });
+    //
+    // }.bind(this));
+
     this.$('.cards-container').disableSelection();
 
+
+
     this.addCreateCardRender();
+
+
 
     return this;
   },
@@ -35,6 +72,8 @@ TrelloClone.Views.ListRow = Backbone.View.extend({
   addCardRender: function (card) {
     var view = new TrelloClone.Views.CardRow({card: card});
     this.subViews.push(view);
+
+
     this.$('.cards-container').prepend(view.render().$el);
   },
 

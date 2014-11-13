@@ -1,7 +1,6 @@
 TrelloClone.Views.CardRow = Backbone.View.extend({
   template: JST['cards/row'],
-  className: "card-container",
-  tagName: "li",
+  className: "card-container new-create",
   initialize: function (options) {
     this.card = options.card;
 
@@ -15,6 +14,7 @@ TrelloClone.Views.CardRow = Backbone.View.extend({
   render: function () {
     var content = this.template({ card: this.card});
     this.$el.html(content);
+
     return this;
   },
 

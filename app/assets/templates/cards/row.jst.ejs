@@ -1,7 +1,9 @@
 <%= card.escape('title') %>
-<p>
+<p data-card-id="<%= card.escape('id') %>">
   <%= card.escape('description') %>
 </p>
+data-id: <%= card.escape('id') %>
+card-ord: <%= card.escape('ord') %>
 <div class='delete-card'>
   &times
 </div>

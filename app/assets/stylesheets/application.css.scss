@@ -16,17 +16,20 @@
 @import "bootstrap";
 @import "font-awesome";
 
-html, body, div{
+html, body, div, ul, li{
   padding: 0;
   margin: 0;
   font: inherit;
+  font-family: helvetica;
 }
 
 div#main {
-  display:block;
-  margin: 0 auto;
-  border: 1px solid red;
-  width: 90%;
+  width: 3000px;
+  overflow-x: auto;
+  // margin: 0 auto;
+  // border: 1px solid red;
+  // width: 90%;
+  background: #2767B6
 }
 //
 
@@ -146,12 +149,37 @@ button.delete {
 
 
 .list-container {
-  border: 1px solid blue;
+  position: relative;
+
+
   display: block;
   float: left;
   width: 262px;
   margin: 0 20px;
-  background: #0c6;
+  background: #fafafa;
+}
+
+.delete-list {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.card-container {
+  position: relative;
+  background: #fafafa;
+}
+.delete-card {
+  position: absolute;
+  display: block;
+  top: 10px;
+  right: 10px;
+}
+.list-container h3 {
+  text-align: center;
+  font-weight:bold;
+  font-family: helvetica;
+  font-size: 18px;
 }
 
 .new-list {
@@ -159,9 +187,14 @@ button.delete {
 
 }
 .card-container {
-  border: 1px solid #0c6;
-  background: #ccc;
+  // border: 1px solid #0c6;
+
+  padding: 5px 10px;
+  background: #dbdbdb;
+  margin: 10px 5px;
 }
+
+
 
 .placeholder {
   box-shadow: inset 1px 1px  5px 5px gray;
