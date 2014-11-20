@@ -1,16 +1,19 @@
 
 <div class="list new-list">Create new list...</div>
 
-<div class='list create-list not-active' id="create-list">
-
+<div class='list create-list not-active clearfix' id="create-list">
+  <div class='cancel'>
+    &times
+  </div>
   <form class="form-new-list">
     <h3 class="create-list-header">Create list</h3>
+
     <label for="title">Title</label>
     <input type="text" id="title" name="list[title]" value="" >
 
 
     <input type="hidden" name="list[board_id]" value="<%= board_id %>">
 
-    <button class="button create-new-list">Create</button>
+    <button class="create-new-list">Create</button>
   </form>
 </div>

@@ -7,7 +7,8 @@ TrelloClone.Views.CardNew = Backbone.View.extend({
   },
   events: {
     "submit .form-new-card": "createCard",
-    "click .new-card": "toggleCard"
+    "click .new-card": "toggleCard",
+    "click .cancel": "cancelCreate"
   },
 
   render: function () {
@@ -18,6 +19,11 @@ TrelloClone.Views.CardNew = Backbone.View.extend({
 
   toggleCard: function (event) {
     $(event.currentTarget).toggleClass('not-active');
+    this.$('.create-card').toggleClass('not-active');
+  },
+
+  cancelCreate: function(event){
+    this.$('.new-card').toggleClass('not-active');
     this.$('.create-card').toggleClass('not-active');
   },
 
@@ -35,8 +41,7 @@ TrelloClone.Views.CardNew = Backbone.View.extend({
       }.bind(this)
     });
 
-    this.$('.new-card').toggleClass('not-active');
-    this.$('.create-card').toggleClass('not-active');
+    this.cancelCreate();
   }
 
 })

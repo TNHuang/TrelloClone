@@ -23,6 +23,9 @@ html, body, div, ul, li{
   font-family: helvetica;
   list-style: none;
 }
+body {
+  background-color: white;
+}
 
 .login-container {
   width: 400px;
@@ -38,6 +41,10 @@ div#main {
   // background: #2767B6
 }
 //
+.blue-background {
+  background-color: rgb(43, 91, 144);
+}
+
 
 .clearfix:after {
   content: "";
@@ -57,7 +64,11 @@ div#main {
   border: 1px solid blue;
   border-radius: 5px;
 }
-
+.board-title {
+  color: white;
+  font-size: 18px;
+  margin: 20px;
+}
 .board a{
   display: block;
   color: white;
@@ -156,8 +167,6 @@ button.delete {
 
 .list-container {
   position: relative;
-
-
   display: block;
   float: left;
   width: 262px;
@@ -165,6 +174,9 @@ button.delete {
   background: #fafafa;
 }
 
+.new-list {
+  padding: 10px;
+}
 .delete-list {
   position: absolute;
   top: 10px;
@@ -188,9 +200,20 @@ button.delete {
   font-size: 18px;
 }
 
-.new-list {
-  // border: 1px solid red;
+.form-new-list label{
+  font-size: 14px;
+  display: block;
+  padding:0 10px;
+  float: left;
+}
 
+.form-new-list input {
+  width: 140px;
+
+}
+.create-new-list {
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 .card-container {
   // border: 1px solid #0c6;
@@ -200,7 +223,9 @@ button.delete {
   margin: 10px 5px;
 }
 
-
+.create-card {
+  font-size: 12px;
+}
 
 .placeholder {
   box-shadow: inset 1px 1px  5px 5px gray;
@@ -214,4 +239,24 @@ button.delete {
   background: orange;
   width: 200px;
   height: 50px;
+}
+
+.cancel {
+  cursor: pointer;
+  position: absolute;
+  font-size: 18px;
+  right: 10px;
+  top: 10px;
+}
+.cancel:hover {
+  text-shadow: 1px 3px 5px black;
+  color:white;
+}
+
+.form-new-card input{
+  width: 150px;
+}
+.create-new-card {
+  margin-top: 10px;
+  float: right;
 }

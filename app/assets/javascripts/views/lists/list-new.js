@@ -9,7 +9,8 @@ TrelloClone.Views.ListNew = Backbone.View.extend({
 
   events: {
     "click .new-list": "toggleList",
-    "submit .form-new-list": "createNewList"
+    "submit .form-new-list": "createNewList",
+    "click .cancel": "cancelCreate"
 
   },
 
@@ -24,6 +25,11 @@ TrelloClone.Views.ListNew = Backbone.View.extend({
     this.$('.create-list').toggleClass('not-active');
   },
 
+  cancelCreate: function () {
+    this.$('.new-list').toggleClass('not-active');
+    this.$('.create-list').toggleClass('not-active');
+  },
+
   createNewList: function (event) {
     event.preventDefault();
     var params = $(event.currentTarget).serializeJSON();
@@ -35,10 +41,8 @@ TrelloClone.Views.ListNew = Backbone.View.extend({
         this.$('#title').val("");
       }.bind(this)
     });
-
-    this.$('.new-list').toggleClass('not-active');
-    this.$('.create-list').toggleClass('not-active');
-  }
+    this.cancelCreate();
+  },
 
 
 })

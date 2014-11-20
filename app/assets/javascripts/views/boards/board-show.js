@@ -1,7 +1,9 @@
 TrelloClone.Views.BoardShow = Backbone.View.extend({
   template: JST["boards/show"],
   initialize: function (options) {
-    $('body').css('background-color', 'rgb(43, 91, 144)');
+    if (!$("body").hasClass('blue-background')){
+      $("body").addClass('blue-background');
+    }
 
     this.board = options.board;
     this.lists = this.board.lists();

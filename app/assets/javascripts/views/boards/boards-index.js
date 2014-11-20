@@ -3,6 +3,9 @@ TrelloClone.Views.BoardsIndex = Backbone.View.extend({
 
 
   initialize: function () {
+    if ($("body").hasClass('blue-background')){
+      $("body").removeClass('blue-background');
+    }
     this.subViews = [];
     this.boards = this.collection;
     this.listenTo(this.collection, "sync change", this.render);
